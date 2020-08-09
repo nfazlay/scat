@@ -15,7 +15,7 @@ const Chat = ({location}) =>{
     const [room, setRoom] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const ENDPOINT = 'https://scat.herokuapp.com/';
+    const ENDPOINT = 'https://scat-server.herokuapp.com/';
     
     useEffect(()=>{
         const {name, room} = queryString.parse(location.search);
@@ -38,7 +38,7 @@ const Chat = ({location}) =>{
 
     useEffect(() => {
         socket.on('message', (message)=>{
-            //spread all other rmessages and add one ther message
+            //spread all other messages and add one ther message
             setMessages([...messages, message])
         });
     }, [messages]);
@@ -48,10 +48,10 @@ const Chat = ({location}) =>{
         event.preventDefault();
 
         if(message){
-            socket.emit('sendMessage', message, () => setMessage(''));
+            socket.emit('sendMessage', message, setMessage(''));
+            console.log("Here" ,message, messages);
         }
 
-        console.log(message, messages);
     }
     return(
         <div className = "outerContainer">
